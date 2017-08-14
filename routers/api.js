@@ -50,7 +50,7 @@ router.post('/user/register', (req, res, next) => {
         // 表示数据库中有数据
         if (doc) {
             resData.code = 400;
-            resData.message = '该账号存在';
+            resData.message = '该账号已存在';
             return res.json(resData);
         }
         //保存用户注册信息到数据库中
@@ -66,6 +66,12 @@ router.post('/user/register', (req, res, next) => {
             } else {
                 resData.code = 200;
                 resData.message = '注册成功';
+                resData.userInfo = {
+                    _id:doc._id,
+                    username: doc.username
+                };
+                // 返回cookie信息
+                req.cookies.set('userInfo',JSON.stringify(resData.userInfo));
                 return res.json(resData);
             }
         })
@@ -100,12 +106,25 @@ router.post('/user/login', (req, res, next) => {
                     _id:doc._id,
                     username: doc.username
                 };
+                // 返回cookie信息
                 req.cookies.set('userInfo',JSON.stringify(resData.userInfo));
                 return res.json(resData);
             }
         })
     }
 });
+
+/**
+ * 退出操作
+ */
+
+router.all('/user/logout',(req,res,next)=>{
+    req.cookies.set('userInfo',null);
+    resData.code = 200;
+    resData.message='用户退出成功';
+    res.json(resData);
+});
+
 
 
 module.exports = router;

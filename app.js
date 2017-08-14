@@ -12,7 +12,7 @@ const path = require('path');
 // 加载body-parser 用于处理post请求的数据
 const bodyParser = require('body-parser');
 // 加载cookies模块
-const Cookies = require( "cookies" );
+const Cookies = require("cookies");
 
 
 // 定义应用模板引擎
@@ -40,20 +40,30 @@ swig.setDefaults({
 
 // 设置bodyparser
 app.use(bodyParser.urlencoded({extended: true}));
+
+// 引入user的数据模型
+let User = require('./models/User');
 // 设置cookies
 app.use((req, res, next) => {
     req.cookies = new Cookies(req, res);
     // 解析登录用户的cookies信息
-    req.userInfo ={};
-    if(req.cookies.get('userInfo')){
-        try{
+    req.userInfo = {};
+    if (req.cookies.get('userInfo')) {
+        try {
             req.userInfo = JSON.parse(req.cookies.get('userInfo'));
+            // 获取当前登录用户的角色
+            User.findById(req.userInfo._id).then(doc=>{
+                req.userInfo.role = doc.role;
+                next();
+            })
         }
-        catch (e){
+        catch (e) {
             throw error(e);
+            next();
         }
+    } else {
+        next();
     }
-    next();
 });
 
 // 设置静态文件托管

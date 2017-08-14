@@ -45,10 +45,7 @@ $(function () {
                 $register.find('p.warning').html(result.message);
                 if (result.code === 200) {
                     //注册成功
-                    setTimeout(function () {
-                        $register.hide();
-                        $login.show();
-                    }, 1000);
+                    window.location.reload();
                 }
             }
         });
@@ -70,20 +67,9 @@ $(function () {
             dataType: 'json',
             success: function (result) {
                 $login.find('p.warning').html(result.message);
-                if (result.code===200) {
+                if (result.code === 200) {
                     //登录成功
-                    setTimeout(function () {
-                        // 用模板的就不用隐藏panel，直接刷新页面
-                        window.location.reload();
-                        /*
-                        $login.hide();
-                        $userInfo.show();
-
-                        //显示登录用户的信息
-                        $userInfo.find('#username').html( result.userInfo.username );
-                        $userInfo.find('#info').html( '欢迎观临我的博客' );
-                        */
-                    }, 1000);
+                    window.location.reload();
                 }
             }
         });
@@ -93,8 +79,9 @@ $(function () {
     $('#logout').on('click', function () {
         $.ajax({
             url: '/api/user/logout',
+            method: 'get',
             success: function (result) {
-                if (!result.code) {
+                if (result.code === 200) {
                     window.location.reload();
                 }
             }

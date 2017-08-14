@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 // 用户的表结构
 module.exports = new mongoose.Schema({
     //用户名
-    username: String,
+    username: 'string',
     // 密码
-    password: String
+    password: 'string',
+    // 角色信息
+    role: 'string'
 });
