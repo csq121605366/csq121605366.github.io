@@ -54,7 +54,7 @@
 						</div>
 					</div>
 					<p id="username" class="blue-text">{{ userInfo.username }}</p>
-						{% if userInfo.isAdmin %}
+						{% if userInfo.role == 'admin' %}
 							<p id="info">你好，管理员！<a href="/admin">进入管理后台</a></p>
 						{% else %}
 							<p>你好，欢迎光临我的博客!</p>
