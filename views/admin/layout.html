@@ -26,9 +26,9 @@
 
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="/admin">首页</a></li>
-					<li><a href="/admin/user">用户管理</a></li>
-					<li>
+					<li {% if type == 'index' %} class="active" {% endif %}><a href="/admin">首页</a></li>
+					<li {% if type == 'user' %} class="active"{% endif %}><a href="/admin/user">用户管理</a></li>
+					<li {% if type == 'category' %} class="active" {% endif %}>
 						<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">分类管理 <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="/admin/category">分类首页</a></li>

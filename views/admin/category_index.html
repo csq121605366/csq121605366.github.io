@@ -22,7 +22,7 @@
 			<td>{{category.name}}</td>
 			<td>
 				<a href="/admin/category/edit?id={{category._id.toString()}}">修改</a> |
-				<a id="categoryDelete" href="javascript:void(0);">删除</a>
+				<a data-id="{{category._id.toString()}}" class="categoryDelete" href="javascript:void(0);">删除</a>
 			</td>
 		</tr>
 		{% endfor %}

@@ -237,7 +237,6 @@ router.get('/category/delete', (req, res, next) => {
   Category.findOne({
     _id:id
   }).then(doc=>{
-    console.log(doc)
     if(!doc){
       resData.code = 400;
       resData.message = '删除的分类不存在';
