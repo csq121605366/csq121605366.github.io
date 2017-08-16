@@ -6,11 +6,12 @@ const router = express.Router();
  */
 const User = require('../models/User');
 const Category = require('../models/Categories');
-
+const Content = require('../models/Content');
 /**
  * 统一返回格式
  */
 let resData;
+
 
 router.use((req, res, next) => {
   resData = {
@@ -79,7 +80,10 @@ router.post('/user/register', (req, res, next) => {
   })
 });
 
-// 登陆模块
+/**
+ * 登陆
+ */
+
 router.post('/user/login', (req, res, next) => {
   let username = req.body.username;
   let password = req.body.password;
@@ -210,7 +214,7 @@ router.post('/category/edit', (req, res, next) => {
             }).then(doc_suc => {
               // 完成修改
               resData.code = 200;
-              resData.message = doc.name + '==>' + name+'，修改成功';
+              resData.message = doc.name + '==>' + name + '，修改成功';
               return res.json(resData);
             })
           }
@@ -225,27 +229,26 @@ router.post('/category/edit', (req, res, next) => {
  */
 
 router.get('/category/delete', (req, res, next) => {
- // 获取要删除的分类id
-  let id = req.query.id||'';
+  // 获取要删除的分类id
+  let id = req.query.id || '';
   // 不存在
-  if(!id){
+  if (!id) {
     resData.code = 400;
     resData.message = '请输入要删除的分类';
     return res.json(resData);
   }
   // 存在
   Category.findOne({
-    _id:id
-  }).then(doc=>{
-    console.log(doc)
-    if(!doc){
+    _id: id
+  }).then(doc => {
+    if (!doc) {
       resData.code = 400;
       resData.message = '删除的分类不存在';
       return res.json(resData);
     }
     Category.remove({
-      _id:id
-    }).then(doc_remove=>{
+      _id: id
+    }).then(doc_remove => {
       resData.code = 200;
       resData.message = '删除的分类成功';
       return res.json(resData);
@@ -253,7 +256,63 @@ router.get('/category/delete', (req, res, next) => {
   })
 });
 
+/**
+ * 文章-增加
+ */
 
+router.post('/content/add', (req, res) => {
+  let title = req.body.title;
+  let category = req.body.category;
+  if (!title || !category) {
+    resData.code = 400;
+    resData.message = '文章名称和分类不能为空';
+    return res.json(resData);
+  }
+  new Content({
+    category: category,
+    title: title,
+    user: req.userInfo._id.toString(),
+    description: req.body.description || '',
+    content: req.body.content || ''
+  }).save().then(suc => {
+    resData.code = 200;
+    resData.message = '内容保存成功';
+    return res.json(resData);
+  }).catch(err => {
+    resData.code = 400;
+    resData.message = '内容保存失败';
+    return res.json(resData);
+  })
+  
+});
+
+router.post('/content/edit', (req, res) => {
+    let id = req.body.id || '';
+    let title = req.body.title;
+    let category = req.body.category || '';
+    let description = req.body.description;
+    let content = req.body.content;
+    console.log(id)
+    if (category === '' || id === '') {
+      resData.code = 400;
+      resData.message = '文章类型或文章id不能为空';
+      return res.json(resData);
+    }
+    Content.update({
+      _id: id,
+    }, {
+      title: title,
+      description: description,
+      content: content
+    }).then(suc => {
+      if (suc) {
+        resData.code = 200;
+        resData.message = '更新成功';
+        return res.json(resData);
+      }
+    })
+  }
+);
 
 
 module.exports = router;

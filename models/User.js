@@ -5,3 +5,4 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const userSchema = require('../schemas/users');
 module.exports = mongoose.model('User', userSchema);
+
