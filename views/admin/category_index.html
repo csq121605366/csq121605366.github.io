@@ -6,7 +6,7 @@
 	<li><span>分类列表</span></li>
 </ol>
 <h3>分类列表</h3>
-{% include 'page.html' %}
+
 <table class="table table-hover table-striped table-bordered">
 	<thead>
 		<tr>
@@ -22,7 +22,7 @@
 			<td>{{category.name}}</td>
 			<td>
 				<a href="/admin/category/edit?id={{category._id.toString()}}">修改</a> |
-				<a id="categoryDelete" href="javascript:void(0);">删除</a>
+				<a data-id="{{category._id.toString()}}" id="categoryDelete" href="javascript:void(0);">删除</a>
 			</td>
 		</tr>
 		{% endfor %}

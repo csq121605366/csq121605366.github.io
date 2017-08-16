@@ -40,12 +40,12 @@ $(function () {
   }
   
   let $categoryEditForm = $('#categoryEditForm');
-  if($categoryEditForm.length){
+  if ($categoryEditForm.length) {
     let $submit = $('#categorySubmit');
     let $alter = $('.alert');
     let $alterTxt = $('.alert-txt');
     let $submitFlag = true;
-  
+    
     $submit.on('click', function (e) {
       if ($submitFlag) {
         $submitFlag = false;
@@ -74,12 +74,16 @@ $(function () {
   }
   
   
-  let $categoryDelete =$('#categoryDelete');
-  if($categoryDelete.length){
+  let $categoryDelete = $('#categoryDelete');
+  if ($categoryDelete.length) {
+    $categoryDelete.on('click', () => {
+      let id = $(this).data('id');
+      $.get('/api/category/edit', {id: id}, () => {
+      
+      })
+    })
     
-  
   }
-  
   
   
 });
