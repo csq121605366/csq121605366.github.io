@@ -1,0 +1,10 @@
+{
+  "apps": [
+    {
+      "name": "csq",
+      "script": "./app.js",
+      "exec_interpreter": "node",
+      "exec_mode": "fork_mode"
+    }
+  ]
+}

@@ -292,7 +292,6 @@ router.post('/content/edit', (req, res) => {
     let category = req.body.category || '';
     let description = req.body.description;
     let content = req.body.content;
-    console.log(id)
     if (category === '' || id === '') {
       resData.code = 400;
       resData.message = '文章类型或文章id不能为空';
@@ -313,6 +312,48 @@ router.post('/content/edit', (req, res) => {
     })
   }
 );
+
+router.get('/comment', (req, res) => {
+  let contentid = req.query.contentid || '';
+  Content.findOne({_id: contentid}).then(content => {
+    console.log(content)
+    if (!content || !content.comments) {
+      resData.code = 404;
+      resData.data = [];
+      resData.message = '评论内容未获取';
+      return res.json(resData);
+    }
+    resData.code = 200;
+    resData.data = content.comments;
+    console.log(content.comments)
+    resData.message = '成功获取评论内容';
+    return res.json(resData);
+  })
+});
+
+router.post('/comment/post', (req, res, next) => {
+  let postData = {
+    username: req.userInfo.username,
+    postTime: new Date(),
+    contentid: req.body.contentid,
+    content: req.body.content
+  };
+  // 查询当前这篇内容的信息
+  Content.findOne({_id: postData.contentid}).then(content => {
+    if (!content) {
+      resData.code = 404;
+      resData.message = '内容未找到';
+      return res.json(resData);
+    } else {
+      content.comments.push(postData);
+      content.save(newCom => {
+        resData.code = 200;
+        resData.message = '评论成功';
+        return res.json(resData);
+      });
+    }
+  })
+});
 
 
 module.exports = router;
