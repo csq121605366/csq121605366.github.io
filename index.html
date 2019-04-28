@@ -12,16 +12,18 @@
   <link href="static/css/section4.css" rel="stylesheet">
   <link href="static/css/section5.css" rel="stylesheet">
   <link href="static/css/jquery.fullPage.min.css" rel="stylesheet">
+
 </head>
 
 <body>
-  <audio autoplay="autoplay" hidden="true" loop="loop" preload="auto" src="music/love.aac">
-    你的浏览器版本太低，不支持audio标签
-  </audio>
 
-  <!-- <audio loop="loop" src="music/love.aac" autoplay="autoplay" preload="auto">
-    Your browser does not support the audio element.
+  <!-- <audio autoplay="autoplay" hidden="true" loop="loop" preload="auto" src="music/love.aac">
+    你的浏览器版本太低，不支持audio标签
   </audio> -->
+  <!-- <audio src="music/love.aac" id="audio" hidden="true" autoplay="autoplay"></audio> -->
+  <audio loop="loop" src="music/love.flac" autoplay="autoplay" preload="auto">
+    Your browser does not support the audio element.
+  </audio>
   <div id="fullPage">
     <div class="section">
       <div id="app">
@@ -346,12 +348,12 @@
           });
         });
       });
+
+      $('audio')[0].volume = 0.8;
+
+      $("#top").lettering();
+      $("#bottom").lettering();
     });
-
-    // $('audio')[0].volume = 0.8;
-
-    $("#top").lettering();
-    $("#bottom").lettering();
   </script>
 </body>
 
